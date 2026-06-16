@@ -19,3 +19,7 @@ dependencies = [
 dev = [
     "debugpy>=1.8.21",
 ]
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
