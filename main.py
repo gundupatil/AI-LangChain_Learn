@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import PromptTemplate
 from langchain_ollama import ChatOllama
+from pydantic import SecretStr
 
 load_dotenv()
 
@@ -39,9 +40,11 @@ Please write a short summary and interesting facts about the person.
         input_variables=["information"],
     )
     llm = ChatAnthropic(
-        model="claude-haiku-4-5",
+        model_name="claude-haiku-4-5",
         temperature=0,
-        api_key=api_key,
+        api_key=SecretStr(api_key),
+        timeout=None,
+        stop=None,
     )
     # llm = ChatOllama(model="gpt-oss:20b", temperature=0)
     chain = summary_prompt | llm
