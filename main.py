@@ -9,45 +9,25 @@ from langchain_anthropic import ChatAnthropic
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_ollama import ChatOllama
+from langchain_tavily import TavilySearch
 from pydantic import SecretStr
 from tavily import TavilyClient
+from typing import List
+from pydantic import BaseModel, Field
 
 load_dotenv()
 
-tavily = TavilyClient()
 
+class source(BaseModel):
+    """" Schema for the source of the information"""
+    title: str = Field(description="The title of the source")
+    url: str = Field(description="The URL of the source")
+    content: str = Field(description="The content of the source")
 
-@tool
-def search_tool(query: str) -> str:
-    """
-    Tool that searches the web for information
-
-    Args:
-        query: The query to search for
-
-    Returns:
-        The search result
-    """
-    print(f"Searching the web for {query}")
-    response = tavily.search(query=query, max_results=5)
-
-    parts: list[str] = []
-    if answer := response.get("answer"):
-        parts.append(f"Summary: {answer}")
-
-    for result in response.get("results", []):
-        parts.append(
-            "\n".join(
-                [
-                    f"Title: {result.get('title', 'N/A')}",
-                    f"URL: {result.get('url', 'N/A')}",
-                    f"Content: {result.get('content', 'N/A')}",
-                ]
-            )
-        )
-
-    return "\n\n".join(parts) if parts else "No search results found."
-
+class AgentResponse(BaseModel):
+    """" Schema for the response of the agent"""
+    sources: List[source] = Field(description="The sources of the information")
+    answer: str = Field(description="The answer to the question")
 
 def create_llm() -> BaseChatModel:
     provider = os.getenv("LLM_PROVIDER", "ollama").lower()
@@ -85,7 +65,8 @@ def main():
         sys.exit("TAVILY_API_KEY is not set. Add it to langchain-course/.env")
 
     llm = create_llm()
-    agent = create_agent(model=llm, tools=[search_tool])
+    tools = [TavilySearch(api_key=os.getenv("TAVILY_API_KEY"))]
+    agent = create_agent(model=llm, tools=tools, response_format=AgentResponse)
 
     try:
         result = agent.invoke(
