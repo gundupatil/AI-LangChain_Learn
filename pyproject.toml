@@ -11,9 +11,7 @@ dependencies = [
     "langchain-anthropic>=1.4.6",
     "langchain-ollama>=1.1.0",
     "langchain-tavily>=0.2.13",
-    "langsmith[claude-agent-sdk]>=0.8.15",
-    "python-dotenv>=1.2.2",
-    "tavily-python>=0.7.12",
+    "python-dotenv>=1.2.2"
 ]
 
 [dependency-groups]
