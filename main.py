@@ -107,12 +107,12 @@ if __name__ == "__main__":
     # ========================================================================
     # Option 0: Raw invocation without RAG
     # ========================================================================
-    print("\n" + "=" * 70)
-    print("IMPLEMENTATION 0: Raw LLM Invocation (No RAG)")
-    print("=" * 70)
-    result_raw = llm.invoke([HumanMessage(content=query)])
-    print("\nAnswer:")
-    print(result_raw.content)
+    # print("\n" + "=" * 70)
+    # print("IMPLEMENTATION 0: Raw LLM Invocation (No RAG)")
+    # print("=" * 70)
+    # result_raw = llm.invoke([HumanMessage(content=query)])
+    # print("\nAnswer:")
+    # print(result_raw.content)
 
     # ========================================================================
     # Option 1: Use implementation WITHOUT LCEL
@@ -127,18 +127,18 @@ if __name__ == "__main__":
     # ========================================================================
     # Option 2: Use implementation WITH LCEL (Better Approach)
     # ========================================================================
-    print("\n" + "=" * 70)
-    print("IMPLEMENTATION 2: With LCEL - Better Approach")
-    print("=" * 70)
-    print("Why LCEL is better:")
-    print("- More concise and declarative")
-    print("- Built-in streaming: chain.stream()")
-    print("- Built-in async: chain.ainvoke()")
-    print("- Easy to compose with other chains")
-    print("- Better for production use")
-    print("=" * 70)
+    # print("\n" + "=" * 70)
+    # print("IMPLEMENTATION 2: With LCEL - Better Approach")
+    # print("=" * 70)
+    # print("Why LCEL is better:")
+    # print("- More concise and declarative")
+    # print("- Built-in streaming: chain.stream()")
+    # print("- Built-in async: chain.ainvoke()")
+    # print("- Easy to compose with other chains")
+    # print("- Better for production use")
+    # print("=" * 70)
 
-    chain_with_lcel = create_retrieval_chain_with_lcel()
-    result_with_lcel = chain_with_lcel.invoke({"question": query})
-    print("\nAnswer:")
-    print(result_with_lcel)
+    # chain_with_lcel = create_retrieval_chain_with_lcel()
+    # result_with_lcel = chain_with_lcel.invoke({"question": query})
+    # print("\nAnswer:")
+    # print(result_with_lcel)
